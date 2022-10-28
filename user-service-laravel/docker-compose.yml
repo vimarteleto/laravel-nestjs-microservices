@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  laravel:
+    build: .
+    container_name: laravel
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - mongodb
+    networks:
+      - services
+
+  mongodb:
+    image: mongo:6.0.2
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - services
+
+networks:
+  services:
+    driver: bridge
