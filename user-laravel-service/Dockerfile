@@ -1,10 +1,10 @@
 FROM php:8.1-apache
 
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli pdo_mysql
+
+RUN docker-php-ext-enable mysqli pdo_mysql
 
 RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip
-
-RUN docker-php-ext-install zip
 
 RUN apt-get update && apt-get upgrade -y
 
