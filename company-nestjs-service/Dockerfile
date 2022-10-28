@@ -1,13 +1,11 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /usr/
 
-RUN npm i -g @nestjs/cli
+COPY ./ /usr/
 
-COPY package*.json ./
+RUN cd /usr/ && npm install && npm run build
 
-RUN npm install
+EXPOSE 3000
 
-COPY . .
-
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "start:prod" ]
