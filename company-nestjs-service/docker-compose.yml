@@ -14,7 +14,7 @@ services:
       - app
 
   mongodb:
-    image: mongo:6.0.2
+    image: mongo:latest
     container_name: mongodb
     ports:
       - 27017:27017
@@ -26,4 +26,5 @@ services:
 
 networks:
   app:
+    name: services_network
     driver: bridge
