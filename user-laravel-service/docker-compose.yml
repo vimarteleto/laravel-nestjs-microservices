@@ -1,23 +1,32 @@
-version: '3'
+version: '3.8'
+# docker-compose exec laravel /bin/bash -c "composer install && chmod -R 777 storage/ && php artisan key:generate"
+
 services:
-  # laravel:
-  #   build: .
-  #   container_name: laravel
-  #   ports:
-  #     - 8080:8000
-  #   depends_on:
-  #     - mysql
-  #   volumes:
-  #     - .:/var/www/html
-  #   networks:
-  #     - services_network
+  laravel:
+    container_name: laravel
+    build: .
+    ports:
+      - '8080:80'
+    volumes:
+      - ./.:/var/www/laravel
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - mysql
+    networks:
+      - services_network
+    restart: always
 
   mysql:
     image: mysql:latest
     container_name: mysql
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
+      MYSQL_DATABASE: users
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
     networks:
       - services_network
 
