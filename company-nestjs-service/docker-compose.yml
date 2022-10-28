@@ -24,6 +24,23 @@ services:
     networks:
       - app
 
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4576:4576"
+    environment:
+      - SERVICES=sqs
+      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_ACCESS_KEY_ID=fakeAccessKeyId
+      - AWS_SECRET_ACCESS_KEY=fakeSecretAccessKey
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume/localstack}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - app
+
 networks:
   app:
     name: services_network
