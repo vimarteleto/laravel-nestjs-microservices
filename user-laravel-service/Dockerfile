@@ -12,4 +12,6 @@ WORKDIR /var/www/laravel
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN a2enmod rewrite && service apache2 restart
+
 COPY . .
