@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   nestjs:
     build: .
     container_name: nestjs
@@ -9,21 +8,21 @@ services:
       - 3000:3000
     volumes:
       - .:/app
-    # depends_on:
-    #   - mongodb
+    depends_on:
+      - mongodb
     networks:
       - app
 
-  # mongodb:
-  #   image: mongo:6.0.2
-  #   container_name: mongodb
-  #   ports:
-  #     - 27017:27017
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=root
-  #     - MONGO_INITDB_ROOT_PASSWORD=root
-  #   networks:
-  #     - app
+  mongodb:
+    image: mongo:6.0.2
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - app
 
 networks:
   app:
