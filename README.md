@@ -37,5 +37,5 @@ http://localhost:3000/
 ```
 
 ```
-php artisan queue:work sqs --queue=users
+docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users"
 ```

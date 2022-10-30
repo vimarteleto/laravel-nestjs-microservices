@@ -14,4 +14,6 @@ docker-compose exec laravel /bin/bash -c "composer install && chmod -R 777 stora
 
 docker-compose exec laravel /bin/bash -c "php artisan migrate"
 
+# docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users"
+
 cd ..
