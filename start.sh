@@ -12,4 +12,6 @@ docker-compose up -d
 
 docker-compose exec laravel /bin/bash -c "composer install && chmod -R 777 storage/ && php artisan key:generate"
 
+docker-compose exec laravel /bin/bash -c "php artisan migrate"
+
 cd ..

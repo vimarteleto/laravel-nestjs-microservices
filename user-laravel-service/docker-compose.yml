@@ -3,7 +3,8 @@ version: '3.8'
 
 services:
   laravel:
-    container_name: laravel
+    image: laravel
+    container_name: users
     build: .
     ports:
       - '8080:80'

@@ -17,7 +17,17 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['string', 'min:3', 'max:24'],
+            'email' => ['string', 'email', 'unique:users'],
+            'company_id' => ['integer'],
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'Invalid request',
+            'data' => $validator->errors()
+        ], 400));
     }
 }

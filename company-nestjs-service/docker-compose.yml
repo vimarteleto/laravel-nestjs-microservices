@@ -2,8 +2,9 @@ version: '3'
 
 services:
   nestjs:
+    image: nestjs
     build: .
-    container_name: nestjs
+    container_name: companies
     ports:
       - 3000:3000
     volumes:
@@ -29,12 +30,18 @@ services:
     image: localstack/localstack
     ports:
       - "4566:4566"
+      - "4572:4572"
       - "4576:4576"
     environment:
-      - SERVICES=sqs
-      - AWS_DEFAULT_REGION=sa-east-1
+      - SERVICES=s3,sqs
+      - IMAGE_NAME=localstack
+      - AWS_DEFAULT_REGION=us-east-1
       - AWS_ACCESS_KEY_ID=fakeAccessKeyId
       - AWS_SECRET_ACCESS_KEY=fakeSecretAccessKey
+      - AWS_DEFAULT_OUTPUT=json
+      - HOSTNAME_EXTERNAL=localstack
+      - HOSTNAME=localstack
+      - DEBUG=1
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume/localstack}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -44,4 +51,3 @@ services:
 networks:
   app:
     name: services_network
-    driver: bridge

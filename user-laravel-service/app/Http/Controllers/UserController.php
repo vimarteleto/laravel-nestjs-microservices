@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\PutObjectStorageRequest;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -51,7 +52,7 @@ class UserController extends Controller
         if ($user) {
             return response()->json($user);
         }
-        return response()->json(['message' => 'User not found'], 404);
+        return response()->json(['message' => "User id #$id not found"], 404);
     }
 
     /**
@@ -67,7 +68,7 @@ class UserController extends Controller
         if ($user) {
             return response()->json($user);
         }
-        return response()->json(['message' => 'User not found'], 404);
+        return response()->json(['message' => "User id #$id not found"], 404);
     }
 
     /**
@@ -78,10 +79,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->service->deleteUser($request, $id);
+        $user = $this->service->deleteUser($id);
         if ($user) {
-            return response()->json($user);
+            return response()->json(['message' => "User id #$id deleted successfully"]);
         }
-        return response()->json(['message' => 'User not found'], 404);
+        return response()->json(['message' => "User id #$id not found"], 404);
+    }
+
+    public function import(PutObjectStorageRequest $request)
+    {
+        $import = $this->service->importUserFromFile($request);
+        return response()->json($import);
     }
 }

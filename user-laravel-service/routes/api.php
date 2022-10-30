@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StorageController;
+use App\Http\Controllers\QueueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::apiResource('users', UserController::class);
+Route::post('users/import', [UserController::class, 'import']);
+
+Route::prefix('storages')->group(function () {
+    Route::get('/', [StorageController::class, 'list']);
+    Route::post('/', [StorageController::class, 'create']);
+    Route::post('/{storage}', [StorageController::class, 'store']);
+});
+
+Route::prefix('queues')->group(function () {
+    Route::post('/', [QueueController::class, 'create']);
+});
