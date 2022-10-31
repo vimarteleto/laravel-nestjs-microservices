@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class CompanyService
 {
-    private $url = 'http://companies:3000';
+    private $url = env('COMPANIES_SERVICE_ENDPOINT');
 
     public function getCompanyById($id)
     {

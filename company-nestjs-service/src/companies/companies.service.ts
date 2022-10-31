@@ -46,7 +46,7 @@ export class CompaniesService {
       throw new NotFoundException(`Company id ${id} not found`);
     }
     await this.deleteUsersFromCompany(id);
-    return company
+    return { message: `User id ${id} deleted successfully` }
   }
 
   private async deleteUsersFromCompany(id: Types.ObjectId) {

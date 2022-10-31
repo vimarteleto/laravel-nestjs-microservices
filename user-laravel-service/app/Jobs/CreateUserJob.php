@@ -38,7 +38,7 @@ class CreateUserJob implements ShouldQueue
     public function handle(UserService $service)
     {
         foreach ($this->data as $user) {
-            echo 'Executing job' . PHP_EOL;
+            echo 'Executing job ' . __CLASS__ . PHP_EOL;
             $user = new StoreUserRequest($user);
             $service->createUser($user);
         }

@@ -43,7 +43,7 @@ class UserService
             if(empty($company['_id'])) {
                 return ['message' => "Company id $company_id not found"];
             }
-    
+
             $user = $this->model->create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -82,12 +82,11 @@ class UserService
             if (!file_exists($filename) || !is_readable($filename)) {
                 return ['message' => 'Cant read file'];
             }
-    
+
             $header = null;
             $users = [];
             if (($handle = fopen($filename, 'r')) !== false) {
-                while (($row = fgetcsv($handle, 1000, ',')) !== false)
-                {
+                while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                     if (!$header) {
                         $header = $row;
                     }
@@ -97,10 +96,10 @@ class UserService
                 }
                 fclose($handle);
             }
-    
+
             CreateUserJob::dispatch($users)->onConnection('sqs')->onQueue('users');
             $object = $this->s3Service->putObject($request);
-            
+
         } catch (SqsException  $e) {
             return ['message' => $e->getAwsErrorMessage()];
         } catch (\Throwable $th) {

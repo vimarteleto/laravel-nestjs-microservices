@@ -28,5 +28,6 @@ Route::prefix('storages')->group(function () {
 });
 
 Route::prefix('queues')->group(function () {
+    Route::get('/', [QueueController::class, 'list']);
     Route::post('/', [QueueController::class, 'create']);
 });
