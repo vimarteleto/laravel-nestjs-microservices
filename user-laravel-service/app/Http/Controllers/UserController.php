@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\PutObjectStorageRequest;
@@ -90,5 +91,10 @@ class UserController extends Controller
     {
         $import = $this->service->importUserFromFile($request);
         return response()->json($import);
+    }
+
+    public function deleteUserByCompanyId(Request $request, $id)
+    {
+        $this->service->deleteUserByCompanyId($id);
     }
 }

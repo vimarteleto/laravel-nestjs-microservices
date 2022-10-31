@@ -40,8 +40,8 @@ class UserService
             $company_id = $request->company_id;
             $company = $this->companyService->getCompanyById($company_id);
 
-            if(empty($company['company_id'])) {
-                return ['message' => "Company id #$company_id not found"];
+            if(empty($company['_id'])) {
+                return ['message' => "Company id $company_id not found"];
             }
     
             $user = $this->model->create([
@@ -68,6 +68,11 @@ class UserService
     {
         $user = $this->model->destroy($id);
         return $user;
+    }
+
+    public function deleteUserByCompanyId($id)
+    {
+        $this->model->where('company_id', $id)->delete();
     }
 
     public function importUserFromFile(PutObjectStorageRequest $request)

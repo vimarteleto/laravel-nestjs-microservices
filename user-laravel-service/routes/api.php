@@ -19,6 +19,7 @@ use App\Http\Controllers\QueueController;
 
 Route::apiResource('users', UserController::class);
 Route::post('users/import', [UserController::class, 'import']);
+Route::delete('users/company/{company_id}', [UserController::class, 'deleteUserByCompanyId']);
 
 Route::prefix('storages')->group(function () {
     Route::get('/', [StorageController::class, 'list']);
