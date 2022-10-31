@@ -1,24 +1,14 @@
 # laravel-nestjs-microservices
 
-## commands
+# commands
+## migrate das tabelas do serviço de usuarios
 ```bash
-
-sudo chmod 777 start.sh
-
-./start.sh
-
+cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan migrate:fresh"
 ```
 
-ou
-
+## fila de importação de usuários via arquivo csv
 ```bash
-
-cd company-nestjs-service && docker-compose up -d && cd ..
-
-cd user-laravel-service && docker-compose up -d
-
-docker-compose exec laravel /bin/bash -c "composer install && chmod -R 777 storage/ && php artisan key:generate" && cd ..
-
+cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users"
 ```
 
 ## localstack
