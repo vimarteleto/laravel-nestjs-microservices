@@ -36,7 +36,7 @@ class SqsService
         }
     }
 
-    public function listQueues(Request $request)
+    public function listQueues()
     {
         try {
             $response = $this->client->listQueues();

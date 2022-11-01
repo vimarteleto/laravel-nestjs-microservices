@@ -22,7 +22,7 @@ class S3Service
         ]);
     }
 
-    public function listBuckets(Request $request)
+    public function listBuckets()
     {
         try {
             $buckets = [];

@@ -92,6 +92,12 @@ class UserController extends Controller
     public function import(PutObjectStorageRequest $request)
     {
         $import = $this->service->importUserFromFile($request);
+        if ($import == 'queue') {
+            return response()->json(['message' => "Queue " . env('SQS_QUEUE') . " not found"], 404);
+        }
+        if ($import == 'bucket') {
+            return response()->json(['message' => "Bucket " . env('AWS_BUCKET') . " not found"], 404);
+        }
         return response()->json($import);
     }
 
