@@ -37,7 +37,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $this->service->createUser($request);
-        return response()->json($user);
+        return response()->json($user, 201);
     }
 
     /**
