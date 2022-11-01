@@ -20,4 +20,12 @@ class CreateUserTest extends TestCase
         $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
         $response->assertStatus(201);
     }
+
+    public function test_create_user_with_invalid_company_cnpj()
+    {
+        $user = User::factory()->definition();
+        $user['company_cnpj'] = '123';
+        $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertStatus(400);
+    }
 }
