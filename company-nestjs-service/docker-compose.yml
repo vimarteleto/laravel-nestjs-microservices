@@ -2,17 +2,22 @@ version: '3'
 
 services:
   nestjs:
+    build:
+      context: .
+      target: development
     image: nestjs
-    build: .
     container_name: companies
+    command: npm run start:debug
     ports:
       - 3000:3000
     volumes:
-      - .:/app
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongodb
+    restart: unless-stopped
     networks:
-      - app
+      - services_network
 
   mongodb:
     image: mongo:latest
@@ -23,7 +28,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=password
     networks:
-      - app
+      - services_network
 
   localstack:
     container_name: localstack
@@ -46,8 +51,8 @@ services:
       - "${LOCALSTACK_VOLUME_DIR:-./volume/localstack}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - app
+      - services_network
 
 networks:
-  app:
-    name: services_network
+  services_network:
+    external: true

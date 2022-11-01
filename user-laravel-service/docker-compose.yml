@@ -3,9 +3,9 @@ version: '3.8'
 
 services:
   laravel:
+    build: .
     image: laravel
     container_name: users
-    build: .
     ports:
       - '8080:80'
     volumes:
@@ -14,7 +14,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - services_network
+      - app
     restart: always
 
   mysql:
@@ -29,8 +29,8 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - services_network
+      - app
 
 networks:
-  services_network:
-    external: true
+  app:
+    name: services_network
