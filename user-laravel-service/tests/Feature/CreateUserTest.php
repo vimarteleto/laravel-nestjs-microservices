@@ -51,4 +51,28 @@ class CreateUserTest extends TestCase
             ]
         ]);
     }
+
+    public function test_create_user_without_name()
+    {
+        $user = User::factory()->definition();
+        unset($user['name']);
+        $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertStatus(400);
+    }
+
+    public function test_create_user_without_email()
+    {
+        $user = User::factory()->definition();
+        unset($user['email']);
+        $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertStatus(400);
+    }
+
+    public function test_create_user_without_company_cnpj()
+    {
+        $user = User::factory()->definition();
+        unset($user['company_cnpj']);
+        $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertStatus(400);
+    }
 }
