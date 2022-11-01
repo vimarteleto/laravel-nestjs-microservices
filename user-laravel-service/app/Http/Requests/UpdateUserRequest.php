@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['string', 'min:3', 'max:24'],
             'email' => ['string', 'email', 'unique:users'],
-            'company_id' => ['string'],
+            'company_cnpj' => ['string', 'max:14', 'min:14'],
         ];
     }
 

@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\PutObjectStorageRequest;
-use App\Models\User;
 use App\Services\UserService;
 
 class UserController extends Controller
 {
-    private UserService $serivce;
+    private UserService $service;
 
     public function __construct(UserService $service)
     {
@@ -93,8 +92,8 @@ class UserController extends Controller
         return response()->json($import);
     }
 
-    public function deleteUserByCompanyId(Request $request, $id)
+    public function deleteUsersByCompanyCnpj(Request $request, $cnpj)
     {
-        $this->service->deleteUserByCompanyId($id);
+        $this->service->deleteUsersByCompanyCnpj($cnpj);
     }
 }

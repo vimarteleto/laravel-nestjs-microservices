@@ -27,7 +27,7 @@ class StorageController extends Controller
 
     public function store(PutObjectStorageRequest $request, $storage)
     {
-        return $this->service->putObject($request, $storage);
+        return $this->service->putObjectOnBucket($request, $storage);
     }
 
 }

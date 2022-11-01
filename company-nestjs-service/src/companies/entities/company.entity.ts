@@ -8,8 +8,11 @@ export class Company extends Document {
     @Prop()
     name: string
 
-    @Prop({ unique: true })
+    @Prop()
     website: string
+
+    @Prop({ unique: true, index: true })
+    cnpj: string
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company)

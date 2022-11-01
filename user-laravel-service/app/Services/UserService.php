@@ -37,17 +37,17 @@ class UserService
     public function createUser(StoreUserRequest $request)
     {
         try {
-            $company_id = $request->company_id;
-            $company = $this->companyService->getCompanyById($company_id);
+            $cnpj = $request->cnpj;
+            $company = $this->companyService->getCompanyByCnpj($cnpj);
 
-            if(empty($company['_id'])) {
-                return ['message' => "Company id $company_id not found"];
+            if(empty($company['cnpj'])) {
+                return ['message' => "Company CNPJ $cnpj not found"];
             }
 
             $user = $this->model->create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'company_id' => $company_id,
+                'company_cnpj' => $cnpj,
             ]);
         } catch (\Throwable $th) {
             return ['message' => $th->getMessage()];
@@ -70,9 +70,9 @@ class UserService
         return $user;
     }
 
-    public function deleteUserByCompanyId($id)
+    public function deleteUsersByCompanyCnpj($cnpj)
     {
-        $this->model->where('company_id', $id)->delete();
+        $this->model->where('company_cnpj', $cnpj)->delete();
     }
 
     public function importUserFromFile(PutObjectStorageRequest $request)
@@ -98,7 +98,7 @@ class UserService
             }
 
             CreateUserJob::dispatch($users)->onConnection('sqs')->onQueue('users');
-            $object = $this->s3Service->putObject($request);
+            $object = $this->s3Service->putObjectOnBucket($request);
 
         } catch (SqsException  $e) {
             return ['message' => $e->getAwsErrorMessage()];

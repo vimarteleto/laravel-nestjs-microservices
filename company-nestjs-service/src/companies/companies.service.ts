@@ -11,46 +11,56 @@ import { Company } from './entities/company.entity';
 export class CompaniesService {
 
   constructor(
-      @InjectModel(Company.name) private readonly model: Model<Company>,
-      private readonly httpService: HttpService
-    ) { }
+    @InjectModel(Company.name) private readonly model: Model<Company>,
+    private readonly httpService: HttpService
+  ) { }
 
   create(createCompanyDto: CreateCompanyDto) {
     const company = new this.model(createCompanyDto)
     return company.save()
   }
 
+  async createMany(createCompanyDto: CreateCompanyDto[]) {
+    try {
+      await this.model.insertMany(createCompanyDto)
+    } catch (error) {
+      throw new Error(error.message);
+
+    }
+    return { message: 'Companies created successfully' }
+  }
+
   async findAll() {
     return await this.model.find();
   }
 
-  async findOne(id: Types.ObjectId) {
-    const company = await this.model.findById(id);
+  async findOne(cnpj: string) {
+    const company = await this.model.findOne({ cnpj: cnpj });
     if (!company) {
-      throw new NotFoundException(`Company id ${id} not found`);
+      throw new NotFoundException(`Company CNPJ ${cnpj} not found`);
     }
     return company
   }
 
-  async update(id: Types.ObjectId, updateCompanyDto: UpdateCompanyDto) {
-    const company = await this.model.findByIdAndUpdate(id, updateCompanyDto, { new: true })
+  async update(cnpj: string, updateCompanyDto: UpdateCompanyDto) {
+    const company = await this.model.findOneAndUpdate({ cnpj: cnpj }, updateCompanyDto, { new: true })
     if (!company) {
-      throw new NotFoundException(`Company id ${id} not found`);
+      throw new NotFoundException(`Company CNPJ ${cnpj} not found`);
     }
     return company
   }
 
-  async remove(id: Types.ObjectId) {
-    const company = await this.model.findByIdAndDelete(id)
+  async remove(cnpj: string) {
+    const company = await this.model.findOneAndDelete({ cnpj: cnpj })
     if (!company) {
-      throw new NotFoundException(`Company id ${id} not found`);
+      throw new NotFoundException(`Company CNPJ ${cnpj} not found`);
     }
-    await this.deleteUsersFromCompany(id);
-    return { message: `User id ${id} deleted successfully` }
+    await this.deleteUsersFromCompany(cnpj);
+    return { message: `Company CNPJ ${cnpj} deleted successfully` }
   }
 
-  private async deleteUsersFromCompany(id: Types.ObjectId) {
-    const request = this.httpService.delete(`${process.env.USERS_SERVICE_ENDPOINT}/company/${id}`).pipe(
+  private async deleteUsersFromCompany(cnpj: string) {
+    const request = this.httpService.delete(`${process.env.USERS_SERVICE_ENDPOINT}/company/${cnpj}`).pipe(
       catchError((error) => {
         throw new HttpException('Request cant be processed, try again later', 400);
       })

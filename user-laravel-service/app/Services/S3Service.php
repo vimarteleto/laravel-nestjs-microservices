@@ -14,7 +14,6 @@ class S3Service
 
     public function __construct()
     {
-
         $this->client = new S3Client([
             'region' => env('AWS_DEFAULT_REGION'),
             'version' => 'latest',
@@ -53,7 +52,7 @@ class S3Service
         }
     }
 
-    public function putObject(PutObjectStorageRequest $request, $bucket = 'users-bucket')
+    public function putObjectOnBucket(PutObjectStorageRequest $request, $bucket = 'users-bucket')
     {
         try {
             $object = $this->client->putObject([

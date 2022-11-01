@@ -4,7 +4,7 @@ import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 
-@Controller('api/companies')
+@Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
@@ -18,18 +18,23 @@ export class CompaniesController {
     return this.companiesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: Types.ObjectId) {
-    return this.companiesService.findOne(id);
+  @Get(':cnpj')
+  findOne(@Param('cnpj') cnpj: string) {
+    return this.companiesService.findOne(cnpj);
   }
 
-  @Put(':id')
-  update(@Param('id') id: Types.ObjectId, @Body() updateCompanyDto: UpdateCompanyDto) {
-    return this.companiesService.update(id, updateCompanyDto);
+  @Put(':cnpj')
+  update(@Param('cnpj') cnpj: string, @Body() updateCompanyDto: UpdateCompanyDto) {
+    return this.companiesService.update(cnpj, updateCompanyDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: Types.ObjectId) {
-    return this.companiesService.remove(id);
+  @Delete(':cnpj')
+  remove(@Param('cnpj') cnpj: string) {
+    return this.companiesService.remove(cnpj);
+  }
+
+  @Post('many')
+  createMany(@Body() createCompanyDto: CreateCompanyDto[]) {
+    return this.companiesService.createMany(createCompanyDto);
   }
 }

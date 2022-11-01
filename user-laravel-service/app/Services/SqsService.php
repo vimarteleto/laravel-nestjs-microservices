@@ -13,7 +13,6 @@ class SqsService
 
     public function __construct()
     {
-
         $this->client = new SqsClient([
             'region' => env('AWS_DEFAULT_REGION'),
             'version' => 'latest',

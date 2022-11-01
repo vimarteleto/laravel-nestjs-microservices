@@ -6,11 +6,9 @@ use Illuminate\Support\Facades\Http;
 
 class CompanyService
 {
-    private $url = env('COMPANIES_SERVICE_ENDPOINT');
-
-    public function getCompanyById($id)
+    public function getCompanyByCnpj($cnpj)
     {
-        $company = Http::get("{$this->url}/api/companies/$id");
+        $company = Http::get(env('COMPANIES_SERVICE_ENDPOINT') . "/api/companies/$cnpj");
         return $company->json();
     }
 }
