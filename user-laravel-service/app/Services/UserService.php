@@ -41,7 +41,7 @@ class UserService
             $company = $this->companyService->getCompanyByCnpj($cnpj);
 
             if(empty($company['cnpj'])) {
-                return ['message' => "Company CNPJ $cnpj not found"];
+                return false;
             }
 
             $user = $this->model->create([

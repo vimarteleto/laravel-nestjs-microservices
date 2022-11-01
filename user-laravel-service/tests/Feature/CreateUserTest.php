@@ -29,6 +29,14 @@ class CreateUserTest extends TestCase
         $response->assertStatus(400);
     }
 
+    public function test_create_user_with_deleted_company_cnpj()
+    {
+        $user = User::factory()->definition();
+        $user['company_cnpj'] = '11111111111111';
+        $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertNotFound();
+    }
+
     public function test_create_user_with_email_already_taken()
     {
         $user = User::factory()->create();

@@ -37,6 +37,9 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $this->service->createUser($request);
+        if (!$user) {
+            return response()->json(['message' => "Company CNPJ {$request->company_cnpj} not found"], 404);
+        }
         return response()->json($user, 201);
     }
 
@@ -49,10 +52,10 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->service->getUserById($id);
-        if ($user) {
-            return response()->json($user);
+        if (!$user) {
+            return response()->json(['message' => "User id #$id not found"], 404);
         }
-        return response()->json(['message' => "User id #$id not found"], 404);
+        return response()->json($user);
     }
 
     /**
@@ -65,10 +68,10 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = $this->service->updateUser($request, $id);
-        if ($user) {
-            return response()->json($user);
+        if (!$user) {
+            return response()->json(['message' => "User id #$id not found"], 404);
         }
-        return response()->json(['message' => "User id #$id not found"], 404);
+        return response()->json($user);
     }
 
     /**
@@ -80,10 +83,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = $this->service->deleteUser($id);
-        if ($user) {
-            return response()->json(['message' => "User id #$id deleted successfully"]);
+        if (!$user) {
+            return response()->json(['message' => "User id #$id not found"], 404);
         }
-        return response()->json(['message' => "User id #$id not found"], 404);
+        return response()->json(['message' => "User id #$id deleted successfully"]);
     }
 
     public function import(PutObjectStorageRequest $request)
