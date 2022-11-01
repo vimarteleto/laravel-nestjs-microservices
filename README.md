@@ -53,7 +53,7 @@ chmod +x start.sh
 ```bash
 docker exec -it users bash -c "php artisan migrate:fresh"
 ```
-- Para execução da fila de importação se usuários por arquivo:
+- Para execução da fila de importação de usuários por arquivo:
 ```bash
 docker exec -it users bash -c "php artisan queue:work sqs --queue=users-queue"
 ```
