@@ -9,15 +9,20 @@ use Tests\TestCase;
 
 class CreateUserTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    private $userJson = [
+        "id",
+        "name",
+        "email",
+        "company_cnpj",
+        "created_at",
+        "updated_at"
+    ];
+
     public function test_create_user()
     {
         $user = User::factory()->definition();
         $response = $this->post('/api/users', $user, ['Accept' => 'application/json']);
+        $response->assertJsonStructure($this->userJson);
         $response->assertCreated();
     }
 
@@ -42,14 +47,6 @@ class CreateUserTest extends TestCase
         $user = User::factory()->create();
         $response = $this->post('/api/users', $user->toArray(), ['Accept' => 'application/json']);
         $response->assertStatus(400);
-        $response->assertJson([
-            'message' => 'Invalid request',
-            'data' => [
-                'email' => [
-                    'The email has already been taken.'
-                ]
-            ]
-        ]);
     }
 
     public function test_create_user_without_name()

@@ -9,12 +9,12 @@ chmod +x start.sh
 ```
 ## migrate das tabelas do serviço de usuarios
 ```bash
-cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan migrate:fresh"
+docker exec -it users bash -c "php artisan migrate:fresh"
 ```
 
 ## fila de importação de usuários via arquivo csv
 ```bash
-cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users"
+docker exec -it users bash -c "php artisan queue:work sqs --queue=users"
 ```
 
 ## localstack
@@ -34,5 +34,5 @@ http://localhost:3000/
 
 ## testing
 ```
-php artisan test
+docker exec -it users bash -c "php artisan test"
 ```
