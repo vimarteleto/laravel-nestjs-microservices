@@ -33,7 +33,7 @@ class UserService
 
     public function getUsers()
     {
-        return $this->model->paginate(10);
+        return $this->model->simplePaginate(10);
     }
 
     public function getUserById($id)
