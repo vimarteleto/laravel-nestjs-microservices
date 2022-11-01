@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Model\User;
 use App\Services\UserService;
 use App\Http\Requests\StoreUserRequest;
-
+use Exception;
 
 class CreateUserJob implements ShouldQueue
 {
@@ -40,7 +40,11 @@ class CreateUserJob implements ShouldQueue
         foreach ($this->data as $user) {
             echo 'Executing job ' . __CLASS__ . PHP_EOL;
             $user = new StoreUserRequest($user);
-            $service->createUser($user);
+            $response = $service->createUser($user);
+
+            if (!isset($response['id'])) {
+                throw new Exception("Error processing job", 1);
+            }
         }
     }
 }

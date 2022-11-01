@@ -24,5 +24,5 @@ docker-compose exec laravel /bin/bash -c "php artisan migrate:fresh"
 
 cd ..
 
-# cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users"
+# cd user-laravel-service && docker-compose exec laravel /bin/bash -c "php artisan queue:work sqs --queue=users-queue"
 

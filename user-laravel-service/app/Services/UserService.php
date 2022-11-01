@@ -26,7 +26,7 @@ class UserService
 
     public function getUsers()
     {
-        return $this->model->paginate();
+        return $this->model->simplePaginate(10);
     }
 
     public function getUserById($id)
@@ -37,7 +37,7 @@ class UserService
     public function createUser(StoreUserRequest $request)
     {
         try {
-            $cnpj = $request->cnpj;
+            $cnpj = $request->company_cnpj;
             $company = $this->companyService->getCompanyByCnpj($cnpj);
 
             if(empty($company['cnpj'])) {
@@ -97,7 +97,7 @@ class UserService
                 fclose($handle);
             }
 
-            CreateUserJob::dispatch($users)->onConnection('sqs')->onQueue('users');
+            CreateUserJob::dispatch($users)->onConnection('sqs')->onQueue(env('SQS_QUEUE'));
             $object = $this->s3Service->putObjectOnBucket($request);
 
         } catch (SqsException  $e) {
